@@ -1,6 +1,47 @@
 # CompositeSubstitution
 MCVE of IntelliJ Composite Builds Dependency Substitution issues
 
+## System information
+### IntelliJ
+```
+IntelliJ IDEA 2022.3.1 (Community Edition)
+Build #IC-223.8214.52, built on December 20, 2022
+Runtime version: 17.0.5+1-b653.23 aarch64
+VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+macOS 12.6.2
+GC: G1 Young Generation, G1 Old Generation
+Memory: 2048M
+Cores: 10
+Metal Rendering is ON
+Registry:
+    debugger.new.tool.window.layout=true
+    ide.experimental.ui=true
+
+Non-Bundled Plugins:
+    org.intellij.scala (2022.3.15)
+    org.sonarlint.idea (7.3.0.59206)
+
+Kotlin: 223-1.7.21-release-272-IJ8214.52
+```
+### Gradle
+```
+$ gradle --version
+
+------------------------------------------------------------
+Gradle 7.5.1
+------------------------------------------------------------
+
+Build time:   2022-08-05 21:17:56 UTC
+Revision:     d1daa0cbf1a0103000b71484e1dbfe096e095918
+
+Kotlin:       1.6.21
+Groovy:       3.0.10
+Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
+JVM:          17.0.5 (Homebrew 17.0.5+0)
+OS:           Mac OS X 12.6.2 aarch64
+```
+
+## How to reproduce
 Running `gradle assemble` works, and it runs as intended with `java -jar ModuleA/build/libs/ModuleA-1.0-SNAPSHOT.jar` outputting the expected `This is a string!`.
 
 In my "original" project I got weird issues with it not being able to resolve the included dependency in IntelliJ. Everything worked but it couldn't resolve them, meaning everything was red. With this MCVE I got other issues before even reaching there, as seen in the stacktrace below:
@@ -83,4 +124,5 @@ Exception during working with external system: java.lang.AssertionError
 	at java.base/java.lang.Thread.run(Thread.java:833)
 ```
 
+## Other Information
 Now using Composite Builds together with Dependency Substitution might not be the norm, but as it works from commandline I would assume that this should work in IntelliJ as well. As for the use-case we have, it's that we have some logic that is shared between our `buildSrc` and actual runtime logic in the application in regards to how we package some plugins.
