@@ -1,7 +1,7 @@
 rootProject.name = 'CompositeSubstitution'
 
 include 'ModuleA'
-includeBuild('tooling') {
+includeBuild('Tooling') {
     dependencySubstitution {
         substitute module('tooling:example') using project(':example')
     }
